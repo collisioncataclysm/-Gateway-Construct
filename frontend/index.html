@@ -1,1 +1,81 @@
-<h1>Λ Syndicator</h1><p>Universal publisher interface</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Λ Syndicator: Universal Publishing Gateway</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+    }
+    .card {
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+    input, button {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    input {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    button {
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Λ Syndicator</h1>
+    <p>Universal Publishing Gateway</p>
+    <form id="publishForm">
+      <input type="text" id="title" placeholder="Title" required />
+      <textarea id="content" rows="6" placeholder="Your proof, paper, or artifact..." style="width:100%; margin-top:1rem; padding:0.75rem; border-radius:10px; background:rgba(255,255,255,0.15); color:#fff;" required></textarea>
+      <button type="submit">🚀 Publish</button>
+    </form>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('publishForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+
+      const res = await fetch("https://your-backend-url-here/api/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content })
+      });
+
+      const data = await res.json();
+      document.getElementById('status').innerText = data.message || "✅ Published!";
+    });
+  </script>
+</body>
+</html>
