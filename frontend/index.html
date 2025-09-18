@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Λ Syndicator - Universal Coherence Publisher</title>
+  <style>
+    body {
+      margin: 0; font-family: 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg,#0a0a0a,#1a1a2e);
+      color: #fff; display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; overflow: hidden;
+    }
+    .container {
+      width: 90%; max-width: 800px; padding: 40px;
+      border-radius: 20px; backdrop-filter: blur(20px);
+      background: rgba(20,20,35,0.85);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .lambda-symbol {
+      font-size: 72px; text-align: center;
+      background: linear-gradient(45deg,#667eea,#f093fb);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+    .publish-button {
+      width: 100%; padding: 20px; border: none;
+      border-radius: 12px; font-size: 18px;
+      background: linear-gradient(135deg,#667eea,#764ba2);
+      color: #fff; cursor: pointer;
+    }
+    .status-panel {background:rgba(0,0,0,0.3);padding:20px;border-radius:12px;margin-top:20px;font-family:monospace;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lambda-symbol">Λ</div>
+    <h1 style="text-align:center;">Syndicator</h1>
+    <p style="text-align:center;opacity:0.7;">Universal Coherence Publisher</p>
+
+    <button class="publish-button" onclick="publish()">📤 PUBLISH UNIVERSALLY</button>
+    <div class="status-panel" id="status">Ready...</div>
+  </div>
+
+  <script>
+    function addLog(msg){ 
+      const s=document.getElementById('status'); 
+      s.innerHTML+=`<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+      s.scrollTop=s.scrollHeight;
+    }
+    async function publish(){
+      addLog("Starting universal syndication...");
+      try{
+        // This auto-detects localhost OR deployed origin
+        let url = window.location.origin + "/api/publish";
+        let res = await fetch(url, {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            author_name:"Your Name",
+            author_orcid:"0000-0002-1825-0097" // Replace with your ORCID
+          })
+        });
+        let data=await res.json();
+        addLog("Success: "+JSON.stringify(data));
+      }catch(e){ addLog("Error: "+e.message); }
+    }
+  </script>
+</body>
+</html>
